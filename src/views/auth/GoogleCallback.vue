@@ -10,21 +10,17 @@ import { onBeforeMount } from 'vue'
 import { postApi } from '@/utils/api'
 import { useUserStore } from '@/stores/user'
 import router from '@/router'
+import type { JwtResponseDto } from '@/definitions/type'
 
 const route = useRoute()
 const { saveAccessToken } = useUserStore()
 
 onBeforeMount(async () => {
-  const response = await postApi('/api/v1/auth/login/google', {
-    code: route.query.code
+  const response = await postApi<{ code: string }, JwtResponseDto>('/api/v1/auth/login/google', {
+    code: route.query.code?.toString() ?? ''
   })
-
-  console.log('response')
-  console.log(response.data.data.accessToken)
-  console.log('response')
-
-  if (response.status === 200 && response.data.meta.code === 200) {
-    saveAccessToken(response.data.data.accessToken)
+  if (response.status === 200 && response.data.code === 'S000') {
+    saveAccessToken(response.data?.data?.accessToken ?? '')
     await router.push('/')
   } else {
     await router.push('/auth/login')

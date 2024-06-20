@@ -1,20 +1,9 @@
-import type { Box } from '@/definitions/model'
-
-export interface Meta {
-  code: number
+export interface ApiResult<T> {
+  code: string
   message: string
-}
-
-export interface CommonResponse<T> {
-  meta: Meta
   data: T | null
 }
 
-export interface PageParams {
-  page: number
-  size: number
-}
-
-export interface Boxes {
-  [key: string]: Box[]
+export interface JwtResponseDto {
+  accessToken: string
 }

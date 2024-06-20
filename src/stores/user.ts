@@ -16,17 +16,16 @@ export const useUserStore = defineStore(
       accessToken.value = token
     }
 
+    function getAccessToken(): string | null {
+      return accessToken.value
+    }
+
     async function logout(): Promise<void> {
       accessToken.value = null
       await router.push('/')
     }
 
-    async function getUserInfo(): Promise<void> {
-      // TODO: get user info
-      // 1. 본인 박스 정보
-    }
-
-    return { accessToken, loginFlag, saveAccessToken, logout }
+    return { accessToken, loginFlag, saveAccessToken, getAccessToken, logout }
   },
   { persist: true }
 )
